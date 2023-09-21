@@ -1,95 +1,117 @@
-import express, { Response, Request } from 'express';
-import { requestErrorHandler, successHandler } from '../responseHandler/index.js';
-import { validate, validateDescription, validateIdObl, validateNameObl } from '../validationHandler/index.js';
-import { Category } from '../types.js';
+import express, { Response, Request } from "express";
+import {
+  requestErrorHandler,
+  successHandler,
+} from "../responseHandler/index.js";
+import {
+  validate,
+  validateDescription,
+  validateIdObl,
+  validateNameObl,
+} from "../validationHandler/index.js";
+import { Category } from "../types.js";
 
 const category = express.Router();
-const categorylist : Category[] = [
-    {id:3001,name:"horror",description:""},
-    {id:3002,name:"comedy",description:"asdjasf"},
-    {id:3003,name:"action",description:"asdasdasdas"} 
+const categoryList: Category[] = [
+  {
+    id: 2001,
+    name: "Horror",
+    description: "Feelings of fear, dread, repulsion, and terror",
+  },
+  {
+    id: 2002,
+    name: "Comedy",
+    description:
+      "Type of drama or other art form the chief object of which, according to modern notions, is to amuse.",
+  },
+  {
+    id: 2003,
+    name: "Action",
+    description:
+      "Fast-paced and include a lot of action like fight scenes, chase scenes, and slow-motion shots",
+  },
 ];
 
-//get all buildings
+//get all categories
+category.get("/", (req: Request, res: Response) => {
+  successHandler(
+    req,
+    res,
+    categoryList,
+    "Successfully read the categories from DB"
+  );
+});
+
 category.get(
-  '/',
+  "/:id",
+  validateIdObl,
+  [validate],
   (req: Request, res: Response) => {
-        successHandler(
-          req,
-          res,
-          categorylist,
-          'Successfully read the buildings from DB',
-        );
+    const id: number = Number(req.params.id);
+
+    const matchingOnes = categoryList.filter((value) => value.id === id);
+
+    if (matchingOnes.length === 1) {
+      // search by primary key: should find just 1
+      successHandler(
+        req,
+        res,
+        matchingOnes[0],
+        "Successfully read one category"
+      );
+    } else {
+      requestErrorHandler(req, res, `No category found with id: ${id}`);
+    }
   }
 );
 
-category.get(
-    '/:id',
-    validateIdObl,
-    [validate],
-    (req: Request, res: Response) => {
-      const id:number = Number(req.params.id);
+category.post(
+  "/",
+  validateNameObl,
+  validateDescription,
+  [validate],
+  (req: Request, res: Response) => {
+    const newCategory: Category = {
+      id: categoryList.length + 2001, // Generate a new unique ID for the category
+      name: req.body.name,
+      description: req.body.description,
+    };
 
-      const matchingOnes = categorylist.filter(
-          (value) => value.id === id
-      );
-      
-      if(matchingOnes.length===1){    // search by primary key: should find just 1
-        successHandler(
-          req,
-          res,
-          matchingOnes[0],
-          "Successfully read one building",
-        );
-      } else {
-        requestErrorHandler(
-          req,
-          res,
-          `No building found with id: ${id}`
-        )
-      }
+    console.log("New Category:", newCategory);
+    categoryList.push(newCategory);
 
-    }
-  );
+    successHandler(
+      req,
+      res,
+      newCategory,
+      `Successfully created a new category with ID: ${newCategory.id}`
+    );
+  }
+);
 
-  category.post(               // CREATE building to DB
-    '/',
-    validateNameObl,
-    validateDescription,
-    [validate],
-    (req: Request, res: Response) => {
-      // const id:number = Number(req.body.id);  //Correction, no id in POST
+category.put(
+  "/:id",
+  validateIdObl,
+  validateNameObl,
+  [validate],
+  (req: Request, res: Response) => {
+    const id: number = Number(req.params.id);
 
-      const idFromDB:Number = 3004;
-      // You can add more check logic, but here just example of success case
-      successHandler(
-        req,
-        res,
-        idFromDB,
-        `Successfully created a new building ${idFromDB} `,
-      );
-    }
-  );
+    // Update the building with the provided ID using req.body data
+    const category = categoryList.find(
+      (category) => category.id === id
+    );
+    category!.name = req.body.name;
+    category!.description = req.body.description;
 
-  category.put(                  // UPDATE existing building in DB
-    '/',
-    validateIdObl,
-    validateNameObl,
-    [validate],
-    (req: Request, res: Response) => {
-      const id:number = Number(req.body.id);
-
-      // You can add more check logic, but here just example of success case
-      successHandler(
-        req,
-        res,
-        1,        // Number of affected rows = updated rows
-        `Successfully updated building with id: ${id}`,
-      );
-    }
-  );
-
-
-
+    // You can add more check logic, but here's an example of success case
+    successHandler(
+      req,
+      res,
+      category,
+      `Successfully updated building with id: ${id}`
+    );
+  }
+);
 
 export default category;
