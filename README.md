@@ -58,4 +58,4 @@ Test the implemented routes using Postman or other API testing tools. Ensured th
 - Dotenv
 
 # License
-This project is licensed under the MIT - see the LICENSE.md file for details.
+This project is licensed under the MIT - see the LICENSE file for details.
