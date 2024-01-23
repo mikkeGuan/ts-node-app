@@ -37,23 +37,23 @@ Follow the lesson recording or instructions provided to set up the backend for o
 bash
 Copy code
 npm install
+```
 After the setup, you can run the backend using:
 
-bash
-Copy code
-npm start
-Visit http://localhost:3333/api to access the API.
 ```
+npm start
+```
+Visit http://localhost:3333/api to access the API.
+
 
 
 # Testing
-Test the implemented routes using Postman or other API testing tools. Ensured that the routes behave as expected, and explore different scenarios.
+Tested the routes using Postman testing tool. Ensured that the routes behave as expected, and explore different scenarios.
 
 # Built With
 - Typescript
 - Node.js
 - Express
-- Body-parser
 - Cors
 - Dotenv
 
