@@ -9,10 +9,10 @@ The project includes two main route files, src/routes/category.ts and src/routes
 # Category Route
 The Category route supports the following operations:
 
-**GET /api/category:** Retrieves all categories.
-**GET /api/category/:id:** Retrieves a specific category by its ID.
-**POST /api/category:**  Creates a new category.
-**PUT /api/category/:id:**  Updates an existing category by its ID.
+**GET /api/category:** Retrieves all categories.  
+**GET /api/category/:id:** Retrieves a specific category by its ID.  
+**POST /api/category:**  Creates a new category.  
+**PUT /api/category/:id:**  Updates an existing category by its ID.  
 Three fake Category routes are preconfigured with names like "Horror," "Comedy," and "Action."
 
 Programming logic is implemented to check that the POSTed Category's name doesn't already exist and that the PUTted Category's ID exists.
@@ -22,10 +22,10 @@ Validators are incorporated to ensure the integrity of the data, including manda
 # Building Route
 The Building route supports similar operations to the Category route.
 
-**GET /api/building:** Retrieves all buildings.
-**GET /api/building/:id:** Retrieves a specific building by its ID.
-**POST /api/building:** Creates a new building.
-**PUT /api/building/:id:** Updates an existing building by its ID.
+**GET /api/building:** Retrieves all buildings.  
+**GET /api/building/:id:** Retrieves a specific building by its ID.  
+**POST /api/building:** Creates a new building.  
+**PUT /api/building/:id:** Updates an existing building by its ID.  
 Three fake Building routes are preconfigured with names like "Päärakennus," "Musiikkitalo," and "Keskuskirjasto."
 
 Similar programming logic and validators are applied as in the Category route.
